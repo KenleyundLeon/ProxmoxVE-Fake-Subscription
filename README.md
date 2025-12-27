@@ -47,7 +47,7 @@ Vor jeder Änderung werden automatisch **Backups mit `.bak` Endung** erstellt.
 Das Script kann direkt von GitHub gestartet werden:
 
 ```
-curl -fsSL https://raw.githubusercontent.com/KenleyundLeon/ProxmoxVE-Fake-Subscription/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/KenleyundLeon/ProxmoxVE-Fake-Subscription/main/install.sh | sudo bash
 ````
 
 ⚠️ Das Script **muss als root** ausgeführt werden.
