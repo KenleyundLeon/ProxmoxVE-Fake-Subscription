@@ -36,11 +36,9 @@ sub get_sockets {
     return $info->{sockets};
 }
 
-# --- Angepasste Funktionen für Test-Key ---
 sub parse_key {
     my ($key, $noerr) = @_;
 
-    # Unser Test-Key immer gültig, unendlich viele Sockets
     if ($key eq 'pve8p-1234567890') {
         return wantarray ? (8, 'p') : 8;
     }
@@ -73,7 +71,6 @@ sub read_etc_subscription {
 
     my $info = Proxmox::RS::Subscription::read_subscription($filename);
 
-    # Wenn unser Test-Key gesetzt ist, immer aktiv zurückgeben
     if ($info && $info->{key} && $info->{key} eq 'pve8p-1234567890') {
         $info->{status}      = 'active';
         $info->{level}       = 'p';
@@ -105,14 +102,13 @@ sub read_etc_subscription {
 
 sub cache_is_valid {
     my ($info) = @_;
-    # Test-Key immer gültig
+
     return 1 if $info && $info->{key} && $info->{key} eq 'pve8p-1234567890';
     return if !$info || $info->{status} ne 'active';
 
     my $checked_info = Proxmox::RS::Subscription::check_age($info, 1);
     return $checked_info->{status} eq 'active';
 }
-# ------------------------------------------------
 
 sub write_etc_subscription {
     my ($info) = @_;
@@ -143,7 +139,6 @@ sub write_etc_subscription {
     }
 }
 
-# --- GET ---
 __PACKAGE__->register_method({
     name => 'get',
     path => '',
@@ -203,7 +198,6 @@ __PACKAGE__->register_method({
     },
 });
 
-# --- UPDATE ---
 __PACKAGE__->register_method({
     name => 'update',
     path => '',
@@ -242,7 +236,6 @@ __PACKAGE__->register_method({
     },
 });
 
-# --- SET ---
 __PACKAGE__->register_method({
     name => 'set',
     path => '',
@@ -278,7 +271,6 @@ __PACKAGE__->register_method({
     },
 });
 
-# --- DELETE ---
 __PACKAGE__->register_method({
     name => 'delete',
     path => '',
