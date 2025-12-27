@@ -89,7 +89,9 @@ echo
 echo "1) Installieren (Backup + Ersetzen)"
 echo "2) Backup wiederherstellen"
 echo
-read -rp "Bitte Auswahl eingeben [1-2]: " choice
+
+# liest jetzt direkt vom Terminal, auch bei curl | bash
+read -rp "Bitte Auswahl eingeben [1-2]: " choice < /dev/tty
 
 case "$choice" in
   1)
