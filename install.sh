@@ -2,7 +2,25 @@
 
 set -e
 
+# URL zum Repo
 REPO_RAW_BASE="https://raw.githubusercontent.com/KenleyundLeon/ProxmoxVE-Fake-Subscription/main"
+
+# Lokale Script-Datei
+SCRIPT_NAME="install.sh"
+
+# Prüfen, ob das Script lokal ausgeführt wird
+if [[ ! -f "$SCRIPT_NAME" ]]; then
+    echo "📥 Lade Script von GitHub herunter..."
+    curl -fsSL "$REPO_RAW_BASE/$SCRIPT_NAME" -o "$SCRIPT_NAME"
+    chmod +x "$SCRIPT_NAME"
+    echo "✅ Script heruntergeladen und ausführbar gemacht."
+    echo "🔹 Starte das Script nun..."
+    exec bash "$SCRIPT_NAME"
+fi
+
+# -------------------------------------------------
+# Ab hier normales Script
+# -------------------------------------------------
 
 PVE_API_DIR="/usr/share/perl5/PVE/API2"
 JS_DIR="/usr/share/javascript/proxmox-widget-toolkit"
@@ -23,6 +41,7 @@ restart_services() {
 
 backup_files() {
   echo "🔹 Erstelle Backups (.bak)..."
+
   for file in "${FILES_API[@]}"; do
     if [[ -f "$PVE_API_DIR/$file" ]]; then
       cp "$PVE_API_DIR/$file" "$PVE_API_DIR/$file.bak"
@@ -73,14 +92,34 @@ restore_backup() {
   restart_services
 }
 
+# Root-Check
 if [[ $EUID -ne 0 ]]; then
   echo "❌ Bitte als root ausführen."
   exit 1
 fi
 
+# Menü
+clear
 echo "========================================"
 echo " Proxmox VE Fake Subscription Script"
 echo "========================================"
 echo
-echo "🔹 Starte automatische Installation..."
-install_files
+echo "1) Installieren (Backup + Ersetzen)"
+echo "2) Backup wiederherstellen"
+echo
+
+# Read vom Terminal
+read -rp "Bitte Auswahl eingeben [1-2]: " choice < /dev/tty
+
+case "$choice" in
+  1)
+    install_files
+    ;;
+  2)
+    restore_backup
+    ;;
+  *)
+    echo "❌ Ungültige Auswahl."
+    exit 1
+    ;;
+esac
