@@ -8,18 +8,20 @@ REPO_RAW_BASE="https://raw.githubusercontent.com/KenleyundLeon/ProxmoxVE-Fake-Su
 # Lokale Script-Datei
 SCRIPT_NAME="install.sh"
 
-# Prüfen, ob das Script lokal ausgeführt wird
+# -------------------------------------------------
+# Self-Download nur, falls Script nicht existiert
+# -------------------------------------------------
 if [[ ! -f "$SCRIPT_NAME" ]]; then
     echo "📥 Lade Script von GitHub herunter..."
     curl -fsSL "$REPO_RAW_BASE/$SCRIPT_NAME" -o "$SCRIPT_NAME"
     chmod +x "$SCRIPT_NAME"
     echo "✅ Script heruntergeladen und ausführbar gemacht."
-    echo "🔹 Starte das Script nun..."
-    exec bash "$SCRIPT_NAME"
+    echo "🔹 Bitte das Script jetzt erneut ausführen, um die Auswahl zu treffen."
+    exit 0
 fi
 
 # -------------------------------------------------
-# Ab hier normales Script
+# Ab hier normales Script (interaktiv)
 # -------------------------------------------------
 
 PVE_API_DIR="/usr/share/perl5/PVE/API2"
@@ -98,7 +100,7 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-# Menü
+# Interaktives Menü
 clear
 echo "========================================"
 echo " Proxmox VE Fake Subscription Script"
