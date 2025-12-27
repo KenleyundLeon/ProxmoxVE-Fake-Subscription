@@ -76,7 +76,7 @@ sub read_etc_subscription {
         $info->{level}       = 'p';
         $info->{sockets}     = $req_sockets;
         $info->{serverid}    = $server_id;
-        $info->{message}     = 'Premium Fake Subscription - Powered By Froback';
+        $info->{message}     = 'Proxmox Fake Subscription';
         $info->{checktime}   = time();
         $info->{regdate}     = '2025-01-01';
         $info->{nextduedate} = strftime("%Y-%m-%d", localtime(time() + 365*24*60*60));
