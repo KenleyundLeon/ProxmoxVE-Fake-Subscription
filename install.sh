@@ -17,6 +17,7 @@ if [[ ! -f "$SCRIPT_NAME" ]]; then
     chmod +x "$SCRIPT_NAME"
     echo "✅ Script heruntergeladen und ausführbar gemacht."
     echo "🔹 Bitte das Script jetzt erneut ausführen, um die Auswahl zu treffen."
+    ./$SCRIPT_NAME
     exit 0
 fi
 
