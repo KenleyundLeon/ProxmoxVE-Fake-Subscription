@@ -23,7 +23,6 @@ restart_services() {
 
 backup_files() {
   echo "🔹 Erstelle Backups (.bak)..."
-
   for file in "${FILES_API[@]}"; do
     if [[ -f "$PVE_API_DIR/$file" ]]; then
       cp "$PVE_API_DIR/$file" "$PVE_API_DIR/$file.bak"
@@ -39,7 +38,6 @@ backup_files() {
 
 install_files() {
   backup_files
-
   echo
   echo "🔹 Ersetze Dateien mit Versionen aus dem GitHub-Repo..."
 
@@ -56,7 +54,6 @@ install_files() {
 
 restore_backup() {
   echo "🔹 Stelle Backups wieder her..."
-
   for file in "${FILES_API[@]}"; do
     if [[ -f "$PVE_API_DIR/$file.bak" ]]; then
       mv "$PVE_API_DIR/$file.bak" "$PVE_API_DIR/$file"
@@ -81,27 +78,9 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-clear
 echo "========================================"
 echo " Proxmox VE Fake Subscription Script"
 echo "========================================"
 echo
-echo "1) Installieren (Backup + Ersetzen)"
-echo "2) Backup wiederherstellen"
-echo
-
-# liest jetzt direkt vom Terminal, auch bei curl | bash
-read -rp "Bitte Auswahl eingeben [1-2]: " choice < /dev/tty
-
-case "$choice" in
-  1)
-    install_files
-    ;;
-  2)
-    restore_backup
-    ;;
-  *)
-    echo "❌ Ungültige Auswahl."
-    exit 1
-    ;;
-esac
+echo "🔹 Starte automatische Installation..."
+install_files
