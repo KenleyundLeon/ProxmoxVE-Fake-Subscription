@@ -1,6 +1,3 @@
-Gerne 👍
-Ich habe den Hinweis **explizit ergänzt**, dass **die Aktivierung über den Key erfolgt**.
-Hier ist die **aktualisierte `README.md` (finale Version)**:
 
 ---
 
